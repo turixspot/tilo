@@ -1,0 +1,33 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="en" ng-app="tilo">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./webjars/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./webjars/font-awesome/4.3.0-4/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./webjars/angular-ui-select/0.12.1/dist/select.min.css">
+    <link rel="stylesheet" href="./css/theme.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="mol-md-offset-1 col-md-3"><h1 class="logo">TILO</h1></div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8" ui-view>
+            </div>
+        </div>
+    </div>
+
+    <script src="./webjars/angular/1.4.5/angular.min.js"></script>
+    <script src="./webjars/angular-sanitize/1.4.5/angular-sanitize.min.js"></script>
+    <script src="./webjars/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <script src="./webjars/angular-ui-select/0.12.1/dist/select.min.js"></script>
+
+            
+    <script src="./js/app.js"></script>
+    <script src="./js/modules/dashboard.js"></script>
+    <script src="./js/modules/timecard.js"></script>
+</body>
+</html>

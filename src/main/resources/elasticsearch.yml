@@ -1,0 +1,2 @@
+cluster.name: tilo-v-01
+transportclient.initial_nodes: ["localhost:9300"]

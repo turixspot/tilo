@@ -1,0 +1,30 @@
+<ul class="nav nav-tabs">
+    <li class="first"><a href="#" class="fa fa-chevron-left"></a></li>
+    <li class="active"><a href="#"><span>Mon <em>Sep</em></span><strong>07</strong></a></li>
+    <li><a href="#"><span>Tue <em>Sep</em></span><strong>08</strong></a></li>
+    <li><a href="#"><span>Wed <em>Sep</em></span><strong>09</strong></a></li>
+    <li><a href="#"><span>Thu <em>Sep</em></span><strong>10</strong></a></li>
+    <li><a href="#"><span>Fri <em>Sep</em></span><strong>11</strong></a></li>
+    <li><a href="#"><span>Sat <em>Sep</em></span><strong>12</strong></a></li>
+    <li><a href="#"><span>Sun <em>Sep</em></span><strong>13</strong></a></li>
+    <li class="last"><a href="#" class="fa fa-chevron-right"></a></li>
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-select ng-model="project.selected" theme="bootstrap">
+                <ui-select-match placeholder="Select project">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="project in projects track by $index" refresh="refreshProject($select.search)" refresh-delay="0">
+                    <div ng-bind-html="project.name | highlight: $select.search" style="display: inline-block; min-width: 20%;"></div>
+                    <a ng-if="project.create" ng-click="createProject($select.search)" style="display: inline-block;">create new</a>
+                </ui-select-choices>
+            </ui-select>
+            <br>
+            <ui-select ng-model="address.selected" theme="bootstrap">
+                <ui-select-match placeholder="Select task">{{$select.selected.formatted_address}}</ui-select-match>
+                <ui-select-choices repeat="address in addresses track by $index" refresh="refreshAddresses($select.search)" refresh-delay="0">
+                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+            <br>
+        </div>
+    </div>
+</ul>
