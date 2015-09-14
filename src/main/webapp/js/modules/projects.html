@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <h3>Project administration</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <form ng-submit="save()">
+              <div class="form-group">
+                <input type="text" class="form-control" id="project" placeholder="Project name" ng-model="_project.name" required>
+                <p class="help-block">Example block-level help text here.</p>
+              </div>
+              <h4>Attributes</h4>
+              <div class="row" ng-repeat="attribute in _project.attributes">
+                <div class="col-md-4">
+                    <input type="text" class="form-control " placeholder="Attribute name" ng-model="attribute.name">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Attribute value" ng-model="attribute.value">
+                </div>
+                <div class="col-md-2">
+                    <i class="fa fa-form fa-times" ng-click="removeAttribute($index)"></i>
+                </div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-default" ng-click="addAttribute()">ADD</button>
+              <br><br>
+              <h4>Tasks</h4>
+              <div class="row" ng-repeat="task in _project.tasks">
+                <div class="col-md-10"><input type="text" class="form-control " placeholder="Task name" ng-model="task.name"></div>
+                <div class="col-md-2">
+                    <i class="fa fa-form fa-times" ng-click="removeTask($index)"></i>
+                </div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-default" ng-click="addTask()">ADD</button>
+              <br><br>
+              <button type="submit" class="btn btn-primary">SAVE PROJECT</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <table cellpadding="1" cellspacing="1" class="table">
+                <thead>
+                <tr>
+                    <th class="col-md-3">Project</th>
+                    <th class="col-md-7">Attributes</th>
+                    <th class="col-md-2">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="p in _list">
+                    <td>{{p.name}}</td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="a in p.attributes">{{a.name}}: {{a.value}}</li>
+                        </ul>
+                    </td>
+                    <td><i class="fa fa-times"></i> <i class="fa fa-pencil-square-o"></i></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
