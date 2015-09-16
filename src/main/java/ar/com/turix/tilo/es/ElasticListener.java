@@ -7,12 +7,13 @@ import javax.servlet.annotation.WebListener;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
+@WebListener
 public class ElasticListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		TransportClient client = new TransportClient();
-		for (String host : client.settings().getAsArray("transportclient.initial_nodes")) {
+		for (String host : client.settings().getAsArray("client.transport.init")) {
 			int port = 9300;
 
 			// or parse it from the host string...

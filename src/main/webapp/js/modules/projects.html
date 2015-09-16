@@ -4,6 +4,7 @@
         <div class="col-md-6">
             <form ng-submit="save()">
               <div class="form-group">
+                <input type="hidden" id="id" ng-model="_project.id" >
                 <input type="text" class="form-control" id="project" placeholder="Project name" ng-model="_project.name" required>
                 <p class="help-block">Example block-level help text here.</p>
               </div>
@@ -45,14 +46,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="p in _list">
+                <tr ng-repeat="p in _list" ng-class="{highlight: p.id == _project.id}">
                     <td>{{p.name}}</td>
                     <td>
+                        Attributes
                         <ul>
                             <li ng-repeat="a in p.attributes">{{a.name}}: {{a.value}}</li>
                         </ul>
+                        Tasks
+                        <ul>
+                            <li ng-repeat="t in p.tasks">{{t.name}}</li>
+                        </ul>
                     </td>
-                    <td><i class="fa fa-times"></i> <i class="fa fa-pencil-square-o"></i></td>
+                    <td><i class="fa fa-times" ng-click="remove(p.id)"></i> <i class="fa fa-pencil-square-o" ng-click="edit(p.id)"></i></td>
                 </tr>
                 </tbody>
             </table>

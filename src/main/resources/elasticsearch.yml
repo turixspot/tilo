@@ -1,2 +1,3 @@
-cluster.name: tilo-v-01
-transportclient.initial_nodes: ["localhost:9300"]
+cluster.name: elasticsearch
+client.transport.sniff: true
+client.transport.init: ["localhost:9300"]

@@ -48,7 +48,13 @@
 			<groupId>org.jboss.spec.javax.ws.rs</groupId>
 			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
 		</dependency>
-		<!-- Search -->
+		<!-- Serialization -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+		<!-- Datastore -->
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
@@ -68,6 +74,11 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>angular</artifactId>
+			<version>1.4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>angular-resource</artifactId>
 			<version>1.4.5</version>
 		</dependency>
 		<dependency>

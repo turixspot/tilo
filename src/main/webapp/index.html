@@ -10,12 +10,19 @@
     <link rel="stylesheet" href="./css/theme.css">
 </head>
 <body>
-    <div class="header">
+    <div class="container-fluid header">
         <div class="color-line"></div>
         <div class="logo">
             <span>
                 Tilo
             </span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                  <li><a href="#/dashboard">Dashboard</a></li>
+                  <li><a href="../navbar-static-top/">Analytics</a></li>
+                  <li><a href="#/projects">Projects</a></li>
+            </ul>
         </div>
     </div>
     <div class="container-fluid body">
@@ -27,6 +34,7 @@
 
     <script src="./webjars/angular/1.4.5/angular.min.js"></script>
     <script src="./webjars/angular-sanitize/1.4.5/angular-sanitize.min.js"></script>
+    <script src="./webjars/angular-resource/1.4.5/angular-resource.min.js"></script>
     <script src="./webjars/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <script src="./webjars/angular-ui-select/0.12.1/dist/select.min.js"></script>
 

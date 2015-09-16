@@ -11,12 +11,17 @@ angular.module('tilo.projects', [])
             });
 })
 
-.controller('ProjectCtrl', function ($scope) {
-	$scope._project = {name:"", attributes:[], tasks:[]};
-	$scope._list = [];
+.controller('ProjectCtrl', function ($scope, Project) {
+	
+	$scope.$on('reset', function(){
+		$scope._project = new Project();
+		$scope._project.attributes = [];
+		$scope._project.tasks = [];
+		$scope._list = Project.query();
+	})
 	
 	$scope.addAttribute = function() {
-		$scope._project.attributes.push({id:"", name:"", value:""});
+		$scope._project.attributes.push({name:"", value:""});
 	};
 	
 	$scope.removeAttribute = function(index) {
@@ -24,7 +29,7 @@ angular.module('tilo.projects', [])
 	};
 	
 	$scope.addTask = function() {
-		$scope._project.tasks.push({id:"", name:""});
+		$scope._project.tasks.push({name:""});
 	};
 	
 	$scope.removeTask = function(index) {
@@ -32,7 +37,22 @@ angular.module('tilo.projects', [])
 	};
 	
 	$scope.save = function(){
-		$scope._list.push($scope._project);
-		$scope._project = {name:"", attributes:[], tasks:[]};
-	}
+		$scope._project.$save().then(function(p){
+			$scope.$emit('reset');
+		});
+	};
+	
+	$scope.edit = function(edit){
+		Project.get({ id: edit }).$promise.then(function(p){
+			$scope._project = p;
+		});
+	};
+	
+	$scope.remove = function(remove){
+		Project.remove({ id: remove }).$promise.then(function(r){
+			$scope.$emit('reset');
+		});
+	};
+	
+	$scope.$emit('reset');
 });

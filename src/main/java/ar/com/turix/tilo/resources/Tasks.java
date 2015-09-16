@@ -1,4 +1,4 @@
-package ar.com.turix.tilo.services;
+package ar.com.turix.tilo.resources;
 
 import java.util.List;
 
