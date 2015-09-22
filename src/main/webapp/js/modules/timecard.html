@@ -1,40 +1,33 @@
 <ul class="nav nav-tabs">
-    <li class="first"><a href="#" class="fa fa-chevron-left"></a></li>
-    <li class="active"><a href="#"><span>Mon <em>Sep</em></span><strong>07</strong></a></li>
-    <li><a href="#"><span>Tue <em>Sep</em></span><strong>08</strong></a></li>
-    <li><a href="#"><span>Wed <em>Sep</em></span><strong>09</strong></a></li>
-    <li><a href="#"><span>Thu <em>Sep</em></span><strong>10</strong></a></li>
-    <li><a href="#"><span>Fri <em>Sep</em></span><strong>11</strong></a></li>
-    <li><a href="#"><span>Sat <em>Sep</em></span><strong>12</strong></a></li>
-    <li><a href="#"><span>Sun <em>Sep</em></span><strong>13</strong></a></li>
-    <li class="last"><a href="#" class="fa fa-chevron-right"></a></li>
-    <div class="tab-content">
+    <li class="first"><a href="#" ng-click="prevWeek()" class="fa fa-chevron-left"></a></li>
+    <li ng-repeat="d in range" ng-class="{active: active(d)}">
+        <a href="#" ng-click="activate(d)"><span>{{d.format("ddd")}} <em>{{d.format("MMM")}}</em></span><strong>{{d.format("DD")}}</strong></a>
+    </li>
+    <li class="last"><a href="#" ng-click="nextWeek()" class="fa fa-chevron-right"></a></li>
+    <div id="timecard" class="tab-content" focus-group="">
         <div class="tab-pane active">
-            <ui-select ng-model="project.selected" theme="bootstrap">
-                <ui-select-match placeholder="Select project">{{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="project in projects track by $index" refresh="refreshProject($select.search)" refresh-delay="0">
-                    <div ng-bind-html="project.name | highlight: $select.search" style="display: inline-block; min-width: 20%;"></div>
-                    <a ng-if="project.create" ng-click="createProject($select.search)" style="display: inline-block;">create new</a>
-                </ui-select-choices>
-            </ui-select>
+            <select id="p" class="form-control" ng-options="p as p.name for p in projects" ng-model="project" data-placeholder="Select a Project">
+                <option></option>
+            </select>
             <br>
-            <ui-select ng-model="address.selected" theme="bootstrap">
-                <ui-select-match placeholder="Select task">{{$select.selected.formatted_address}}</ui-select-match>
-                <ui-select-choices repeat="address in addresses track by $index" refresh="refreshAddresses($select.search)" refresh-delay="0">
-                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
-                </ui-select-choices>
-            </ui-select>
+            <select id="t" class="form-control" ng-options="t as t.name for t in project.tasks" ng-model="task" data-placeholder="Select a Task">
+                <option></option>
+            </select>
             <br>
             <div class="row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control input-time" placeholder="00:00">
+                    <input type="text" class="form-control input-time" placeholder="1h 15m" ng-model="time">
                 </div>
                 <div class="col-md-8">
-                    <textarea class="form-control input-note" rows="3" style="height: 70px" placeholder="Note"></textarea>
+                    <textarea class="form-control input-note" rows="3" style="height: 70px" placeholder="Note" ng-model="note"></textarea>
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary btn-log">Log</button>
+            <button type="submit" class="btn btn-primary btn-log" ng-click="log()">Log</button>
         </div>
     </div>
 </ul>
+<script type="text/javascript">
+$('select').select2();
+$('select#p').select2('focus');
+</script>

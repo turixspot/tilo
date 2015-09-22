@@ -4,11 +4,26 @@ var app = angular.module('tilo', [
   'ngResource',
   'ui.router',
   'tilo.dashboard',
+  'tilo.analytics',
   'tilo.projects'
 ])
 .config(function ($stateProvider, $urlRouterProvider) {
-	    $urlRouterProvider.otherwise('dashboard');
+	$urlRouterProvider.otherwise('dashboard');
 })
 .factory('Project', function($resource) {
-  return $resource('./api/projects/:id');
+	return $resource('./api/projects/:id');
+})
+.factory('Log', function($resource) {
+	return $resource('./api/logs/:id');
+})
+.factory('Analytics', function($resource) {
+	return $resource('./api/analytics/:report/:from/:to/', {},{
+		overview : {
+            method: 'GET',
+            isArray: false,
+            params: {
+                report: 'overview'
+            }
+        }
+	});
 });
