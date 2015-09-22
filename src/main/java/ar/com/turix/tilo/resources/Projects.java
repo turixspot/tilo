@@ -8,7 +8,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,21 +41,13 @@ public class Projects extends AbstractResource {
 			p.setId(UUID.randomUUID().toString());
 
 		client().prepareIndex("projects", "project", p.getId()).setSource(serialize(p)).execute().get();
-		client().admin().indices().prepareRefresh().execute().get();
+		client().admin().indices().prepareRefresh("projects").execute().get();
 	}
 
 	@Path("/{id}")
 	@GET
 	public Project get(@PathParam("id") String id) throws Exception {
 		return deserialize(client().prepareGet("projects", "project", id).execute().get().getSourceAsString(), Project.class);
-	}
-
-	@Path("/{id}")
-	@PUT
-	public void update(@PathParam("id") String id, Project p) throws Exception {
-		p.setId(id);
-		client().prepareIndex("projects", "project", p.getId()).setSource(serialize(p)).execute().get();
-		client().admin().indices().prepareRefresh().execute().get();
 	}
 
 	@Path("/{id}")
