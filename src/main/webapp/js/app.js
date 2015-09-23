@@ -3,12 +3,20 @@ var app = angular.module('tilo', [
   'ngSanitize',
   'ngResource',
   'ui.router',
+  'LocalStorageModule',
   'tilo.dashboard',
   'tilo.analytics',
   'tilo.projects'
 ])
 .config(function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('dashboard');
+})
+.config(function (localStorageServiceProvider) {
+  localStorageServiceProvider.setPrefix('tilo');
+})
+.run(function(localStorageService){
+	if(!localStorageService.get('shortcuts'))
+		localStorageService.set('shortcuts',{})
 })
 .factory('Project', function($resource) {
 	return $resource('./api/projects/:id');
@@ -26,4 +34,23 @@ var app = angular.module('tilo', [
             }
         }
 	});
+})
+.factory('Preferences', function(localStorageService){
+	return {
+		shortcut : function(project, task){
+			var s = localStorageService.get('shortcuts');
+			
+			if(!s[project])
+				s[project] = [task];
+			
+			if(s[project].indexOf(task) < 0)
+				s[project].push(task);
+
+			localStorageService.set('shortcuts', s);
+		},
+		
+		shortcuts : function() {
+			return localStorageService.get('shortcuts');
+		}
+	}
 });

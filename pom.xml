@@ -102,15 +102,10 @@
 			<version>0.2.15</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>select2</artifactId>
-			<version>3.5.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>select2-bootstrap-css</artifactId>
-			<version>1.4.6</version>
-		</dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-ui-select</artifactId>
+		    <version>0.12.1</version>
+        </dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
@@ -120,6 +115,11 @@
 			<groupId>org.webjars.bower</groupId>
 			<artifactId>angular-google-chart</artifactId>
 			<version>0.0.11</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-local-storage</artifactId>
+		    <version>0.2.2</version>
 		</dependency>
 	</dependencies>
 	<build>

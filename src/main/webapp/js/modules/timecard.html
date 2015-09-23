@@ -1,18 +1,24 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs pull-left">
     <li class="first"><a href="#" ng-click="prevWeek()" class="fa fa-chevron-left"></a></li>
     <li ng-repeat="d in range" ng-class="{active: active(d)}">
         <a href="#" ng-click="activate(d)"><span>{{d.format("ddd")}} <em>{{d.format("MMM")}}</em></span><strong>{{d.format("DD")}}</strong></a>
     </li>
     <li class="last"><a href="#" ng-click="nextWeek()" class="fa fa-chevron-right"></a></li>
-    <div id="timecard" class="tab-content" focus-group="">
+    <div id="timecard" class="tab-content">
         <div class="tab-pane active">
-            <select id="p" class="form-control" ng-options="p as p.name for p in projects" ng-model="project" data-placeholder="Select a Project">
-                <option></option>
-            </select>
+            <ui-select ng-model="project.selected" theme="bootstrap" on-select="updateTasks($item, $model)">
+                <ui-select-match placeholder="Select a Project">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="p in projects | filter: $select.search">
+                  <div ng-bind-html="p.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
             <br>
-            <select id="t" class="form-control" ng-options="t as t.name for t in project.tasks" ng-model="task" data-placeholder="Select a Task">
-                <option></option>
-            </select>
+            <ui-select ng-model="task.selected" theme="bootstrap">
+                <ui-select-match placeholder="Select a task">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="t in project.selected.tasks | filter: $select.search">
+                  <div ng-bind-html="t.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
             <br>
             <div class="row">
                 <div class="col-md-4">
@@ -27,7 +33,10 @@
         </div>
     </div>
 </ul>
-<script type="text/javascript">
-$('select').select2();
-$('select#p').select2('focus');
-</script>
+<div class="shortcuts pull-left">
+    <h4>Recently Used</h4>
+    <ul ng-repeat="(key, value) in shortcuts" class="nav">
+        {{key}}
+        <li ng-repeat="t in value"><a href="#" ng-click="shortcut(key, t)">{{t}}</a></li>
+    </ul>
+</div>
