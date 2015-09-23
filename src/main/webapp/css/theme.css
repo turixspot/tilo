@@ -238,3 +238,27 @@ textarea {
 tr.highlight {
     border-left: 5px solid #74d348;
 }
+.shortcuts {
+	margin-left: 100px;
+	min-width: 150px;
+}
+
+.shortcuts h4 {
+	text-align: right;
+}
+
+.shortcuts ul {
+	font-weight: bold;
+	font-size: 1.4rem;
+	margin-bottom: 20px;
+}
+
+.shortcuts ul li {
+	font-weight: normal;
+	list-style: none;
+	padding-left: 30px;
+}
+
+.shortcuts ul li a {  
+	padding: 5px 0px;
+}
