@@ -22,7 +22,7 @@
             <br>
             <div class="row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control input-time" placeholder="1h 15m" ng-model="time">
+                    <input type="text" class="form-control input-time" placeholder="1h 15m" ng-model="time" ng-interval>
                 </div>
                 <div class="col-md-8">
                     <textarea class="form-control input-note" rows="3" style="height: 70px" placeholder="Note" ng-model="note"></textarea>
@@ -40,3 +40,20 @@
         <li ng-repeat="t in value"><a href="#" ng-click="shortcut(key, t)">{{t}}</a></li>
     </ul>
 </div>
+<div class="clearfix"></div>
+<br><br>
+<ul class="media-list logs">
+  <li class="media" ng-repeat="log in logs">
+    <div class="pull-right" style="padding-right: 20px;"><i class="fa fa-trash-o" ng-click="remove(log.id)"></i></div>
+    <div class="media-left">
+        <span class="time">{{log.time | formatMillis}}</span>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{log.project}}</h4>
+      <p>{{log.task}}</p>
+    </div>
+    <div class="media.right">
+      <p class="media-footer">{{log.note}}</p>
+    </div>
+  </li>
+</ul>
