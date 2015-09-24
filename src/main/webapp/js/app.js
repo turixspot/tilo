@@ -4,6 +4,7 @@ var app = angular.module('tilo', [
   'ngResource',
   'ui.router',
   'LocalStorageModule',
+  'tilo.filters',
   'tilo.dashboard',
   'tilo.analytics',
   'tilo.projects'

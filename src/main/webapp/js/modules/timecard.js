@@ -1,22 +1,11 @@
-angular.module('tilo.timecard', ['ui.select'])
-.filter('property', function() {
-	  return function(input, property, value) {
-	    var i=0, len=input.length;
-	    for (; i<len; i++) {
-	      if (input[i][property] == value) {
-	        return input[i];
-	      }
-	    }
-	    return null;
-	  }
-})
+angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
 .directive('timecard', function() {
   return {
     templateUrl: 'js/modules/timecard.html',
     controller: function($scope, $filter, Preferences, Project, Log) {
     	$scope.selected = moment().startOf('day');
     	$scope.range = [];
-    	/*
+    	/**
     	 * Date selector.
     	 */
     	$scope.active = function(date) {
@@ -24,16 +13,17 @@ angular.module('tilo.timecard', ['ui.select'])
     	}
     	
     	$scope.activate = function(date) {
-    		return $scope.selected = date;
+    		$scope.selected = date;
+    		$scope.$emit("update-logs");
     	}
     	
     	$scope.nextWeek = function(date) {
-    		$scope.selected.add(7, "day");
+    		$scope.activate($scope.selected.clone().add(7, "day"));
     		$scope.$emit("update-range");
     	}
     	
     	$scope.prevWeek = function(date) {
-    		$scope.selected.subtract(7, "day");
+    		$scope.activate($scope.selected.clone().subtract(7, "day"));
     		$scope.$emit("update-range");
     	}
     	
@@ -45,6 +35,18 @@ angular.module('tilo.timecard', ['ui.select'])
     	});
     	
     	$scope.$emit("update-range");
+    	
+    	/**
+    	 * Project/Task selection
+    	 */
+    	$scope.tasks = [];
+    	$scope.task = {};
+    	$scope.projects = Project.query();
+    	$scope.project = { }
+    	
+    	$scope.updateTasks = function(item, model){
+    		$scope.tasks = item.tasks;
+    	}
     	
     	/**
     	 * Shortcuts
@@ -59,29 +61,50 @@ angular.module('tilo.timecard', ['ui.select'])
     		$scope.task.selected = $filter('property')($scope.project.selected.tasks,'name',task);
     	}
     	
-    	/*
-    	 * Project selection
+    	/**
+    	 * Logs
     	 */
-    	$scope.tasks = [];
-    	$scope.task = {};
-    	$scope.projects = Project.query();
-    	$scope.project = { }
+    	$scope.$on("update-logs", function() { 
+    		Log.query({date: $scope.selected.format('x')}).$promise.then(function(r) {
+    			 $scope.logs = r;
+    		});
+    	});
+    	$scope.$emit("update-logs");
     	
-    	$scope.updateTasks = function(item, model){
-    		$scope.tasks = item.tasks;
-    	}
+    	$scope.remove = function(remove){
+    		Log.remove({ id: remove }).$promise.then(function(r){
+    			$scope.$emit('update-logs');
+    		});
+    	};
+    	
+    	
+    	$scope.$on("reset-form", function() {
+    		$scope.project.selected = null;
+    		$scope.task.selected = null;
+    		$scope.note = null;
+    		$scope.time = null;
+    	});
+    	
     	
     	$scope.log = function(){
+
     		var log = new Log();
-    		log.timestamp = $scope.selected.format('x');
+    		var timestamp = moment();
+    		timestamp.day($scope.selected.day());
+    		timestamp.month($scope.selected.month());
+    		timestamp.year($scope.selected.year());
+    		log.timestamp = timestamp.format('x');
     		log.user = "anonymous";
     		log.project = $scope.project.selected.name;
     		log.task = $scope.task.selected.name;
     		log.note = $scope.note;
     		log.time = $scope.time;
+    		
     		log.$save().then(function(r){
     			Preferences.shortcut(log.project, log.task);
     			$scope.$emit("update-shortcuts");
+    			$scope.$emit("update-logs");
+    			$scope.$emit("reset-form");
     		});
     	}
     }
