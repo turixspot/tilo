@@ -6,11 +6,51 @@
     </div>
 </div>
 <br>
-<div class="row">
+<br>
+<span ng-if="!results">No data available.</span>
+<div class="row"  ng-if="results">
     <div class="col-md-5">
         <div google-chart chart="projects" style="padding:0;width:100%"> </div>
     </div>
     <div class="col-md-6">
-        <div google-chart chart="chart" style="padding:0;width:100%"> </div>
+        <div google-chart chart="users" style="padding:0;width:100%"> </div>
     </div>
+</div>
+<br>
+<br>
+<div class="col-md-12"  ng-if="results">
+    <div class="btn-group pull-right" role="group">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="glyphicon glyphicon-export icon-share"></i>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a target="_blank" href="api/analytics/export/csv/{{range.startDate.format('x')}}/{{range.endDate.format('x')}}">CSV</a></li>
+        </ul>
+      </div>
+    </div>
+    <table cellpadding="1" cellspacing="1" class="table">
+        <thead>
+        <tr>
+            <th class="col-md-3">Project</th>
+            <th class="col-md-7">Task</th>
+            <th class="col-md-2">User</th>
+            <th class="col-md-2">Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat-start="p in detailed.buckets">
+            <td colspan="3">{{p.key}}</td><td></td>
+        </tr>
+        <tr ng-repeat-start="t in p.bytask.buckets">
+            <td style="border: 0"></td><td colspan="2">{{t.key}}</td><td></td>
+        </tr>
+        <tr ng-repeat="u in t.byuser.buckets">
+            <td colspan="2" style="border: 0"></td><td>{{u.key}}</td><td>{{u.time_ms.value|formatMillis}}</td>
+        </tr>
+        <tr ng-repeat-end ng-hide="true"></tr>
+        <tr ng-repeat-end ng-hide="true"></tr>
+        </tbody>
+    </table>
 </div>
