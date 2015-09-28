@@ -7,7 +7,8 @@ var app = angular.module('tilo', [
   'tilo.filters',
   'tilo.dashboard',
   'tilo.analytics',
-  'tilo.projects'
+  'tilo.projects',
+  'tilo.users'
 ])
 .config(function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('dashboard');
@@ -21,6 +22,9 @@ var app = angular.module('tilo', [
 })
 .factory('Project', function($resource) {
 	return $resource('./api/projects/:id');
+})
+.factory('User', function($resource) {
+	return $resource('./api/users/:id');
 })
 .factory('Log', function($resource) {
 	return $resource('./api/logs/:id');

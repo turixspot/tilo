@@ -2,10 +2,9 @@ package ar.com.turix.tilo.resources;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
+import javax.inject.Inject;
 
-import org.elasticsearch.client.transport.TransportClient;
+import ar.com.turix.tilo.utils.Elastic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,12 +12,8 @@ public class AbstractResource {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
-	@Context
-	private ServletContext ctx;
-
-	protected TransportClient client() {
-		return (TransportClient) ctx.getAttribute("es");
-	}
+	@Inject
+	protected Elastic client;
 
 	protected byte[] serialize(Object o) throws IOException {
 		return mapper.writeValueAsBytes(o);

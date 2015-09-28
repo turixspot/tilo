@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <ul class="nav nav-tabs pull-left">
     <li class="first"><a href="#" ng-click="prevWeek()" class="fa fa-chevron-left"></a></li>
     <li ng-repeat="d in range" ng-class="{active: active(d)}">
@@ -5,7 +8,8 @@
     </li>
     <li class="last"><a href="#" ng-click="nextWeek()" class="fa fa-chevron-right"></a></li>
     <div id="timecard" class="tab-content">
-        <div class="tab-pane active">
+        <div class="tab-pane active" ng-init="user = '<shiro:principal property='name'/>'">
+            <input type="hidden" id="user" ng-model="user">
             <ui-select ng-model="project.selected" theme="bootstrap" on-select="updateTasks($item, $model)">
                 <ui-select-match placeholder="Select a Project">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="p in projects | filter: $select.search">
@@ -52,7 +56,7 @@
       <h4 class="media-heading">{{log.project}}</h4>
       <p>{{log.task}}</p>
     </div>
-    <div class="media.right">
+    <div class="media-right">
       <p class="media-footer">{{log.note}}</p>
     </div>
   </li>

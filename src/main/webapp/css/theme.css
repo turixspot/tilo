@@ -275,5 +275,5 @@ ul.logs {
 }
 
 .ng-invalid {
-  border-color: red !important;
+  border-color: #e67e22 !important;
 }
