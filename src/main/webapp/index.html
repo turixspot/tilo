@@ -23,8 +23,8 @@
             <ul class="nav navbar-nav navbar-right">
                   <li><a href="#/dashboard">Dashboard</a></li>
                   <li><a href="#/analytics">Analytics</a></li>
-                  <li><a href="#/projects">Projects</a></li>
                   <shiro:hasRole name="administrator">
+                  <li><a href="#/projects">Projects</a></li>
                   <li><a href="#/users">Users</a></li>
                   </shiro:hasRole>
                   <li><a href="logout">Logout</a></li>
@@ -59,6 +59,7 @@
     
     <!-- Analytics -->
     <script src="./webjars/angular-google-chart/0.0.11/ng-google-chart.js"></script>
+    <script src="./webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script src="./js/app.js"></script>
     <script src="./js/filters.js"></script>

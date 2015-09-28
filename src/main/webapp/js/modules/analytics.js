@@ -131,7 +131,7 @@ angular.module('tilo.analytics', ['googlechart'])
 	/**
 	 * Range picker.
 	 */
-	$scope.range = { startDate: moment(), endDate: moment().add(7, "day")};
+	$scope.range = { startDate: moment().subtract(30, "day"), endDate: moment()};
 	$scope.picker = {};
 	$scope.picker.ranges = {
 	        	"Today": [
@@ -147,12 +147,12 @@ angular.module('tilo.analytics', ['googlechart'])
       	            moment()
       	        ],
       	        "This Month": [
-      	            "2015-09-01T03:00:00.000Z",
-      	            "2015-10-01T02:59:59.999Z"
+      	            moment().startOf("month"),
+      	            moment().endOf("month"),
       	        ],
       	        "Last Month": [
-      	            "2015-08-01T03:00:00.000Z",
-      	            "2015-09-01T02:59:59.999Z"
+       	            moment().subtract(1, "month").startOf("month"),
+      	            moment().subtract(1, "month").endOf("month"),
       	        ]
       	    };
 	$scope.picker.locale = { format: 'YYYY-MM-DD'};
@@ -160,46 +160,52 @@ angular.module('tilo.analytics', ['googlechart'])
 	$scope.picker.endDate = $scope.range.endDate;
 
 	$scope.$watch('range', function(value){
-		console.log("New range ctrl: " + JSON.stringify(value));
+		if(value)
+			$scope.$emit("update-analytics");
 	});
 	
 	/**
 	 * Projects.
 	 */
-	var projects = {};
-	projects.type = "PieChart";
-	projects.data = [["Project", "time", "{type: 'string', role: 'tooltip'}"]];
-    projects.options = {
-        width: 400,
-        height: 200,
-        chartArea: {left:10,top:10,bottom:0,height:"100%"},
-        pieHole: 0.6,
-        legend: {position: 'none'}
-    };
+	$scope.$on("update-analytics", function(){
+	    
+	    Analytics.overview({from: $scope.range.startDate.format('x'), to: $scope.range.endDate.format('x')}).$promise.then(function(tmp){
+	    	
+	    	$scope.results = tmp.results;
+	    	if(!tmp.results)
+	    		return;
+	    	
+	    	
+	    	var projects = {};
+	    	projects.type = "PieChart";
+	    	projects.data = [["Project", "Hours"]];
+	    	projects.options = {
+	    			width: 400,
+	    			height: 200,
+	    			chartArea: {left:10,top:10,bottom:0,height:"100%"},
+	    			pieHole: 0.6,
+	    			legend: {position: 'none'}
+	    	};	    	
+	    	angular.forEach(tmp.byproject.buckets, function(item) {
+	    		projects.data.push([item.key , item.time_ms.value / (1000*60*60)]);
+	    	});    	
+	    	$scope.projects = projects;
+	    	
+	    	var users = {};
+	    	users.type = "BarChart";
+	    	users.data = [["User", "Hours"]];
+	    	users.options = {
+	    			width: 500,
+	    			height: 200,
+	    			bar: { groupWidth: '75%' },
+	    			legend: {position: 'none'}
+	    	};
+	    	angular.forEach(tmp.byuser.buckets, function(item) {
+	    		users.data.push([item.key , item.time_ms.value / (1000*60*60)]);
+	    	});
+	    	$scope.users = users;
 
-    $scope.projects = projects;
-    
-    Analytics.overview({from:"0", to:"9223372036854775807"}).$promise.then(function(tmp){
-    	angular.forEach(tmp.aggregations.byproject, function(value, key) {
-    		projects.data.push([key , value, $filter('formatMillis')(value)]);
-    	});    	
-    });
-    
-    var chart1 = {};
-    chart1.type = "BarChart";
-    chart1.data = [
-       ['user', 'semana', 'guiamais', 'publicar'],
-       ['rvega', 10, 50, 30],
-       ['ggallardo', 80, 15, 50]
-      ];
-    chart1.data.push(['aprieto',2, 20, 50]);
-    chart1.options = {
-        width: 600,
-        height: 200,
-        isStacked: true,
-        bar: { groupWidth: '75%' }
-    };
-
-    $scope.chart = chart1;
-
+	    	$scope.detailed = tmp.detailed;
+	    });
+	});
 });
