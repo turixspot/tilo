@@ -33,7 +33,7 @@ public class Logs extends AbstractResource {
 		long to = tmp.plusDays(1).withTimeAtStartOfDay().minusSeconds(1).getMillis(); // 23h 59m 59s
 
 		List<Log> all = new ArrayList<Log>();
-		SearchResponse response = client().prepareSearch("logs")
+		SearchResponse response = client.prepareSearch("logs")
 		// Query
 		.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to)).execute().get();
 
@@ -49,20 +49,20 @@ public class Logs extends AbstractResource {
 		if (l.getId() == null) // create
 			l.setId(UUID.randomUUID().toString());
 
-		client().prepareIndex("logs", "log", l.getId()).setSource(serialize(l)).execute().get();
-		client().admin().indices().prepareRefresh("logs").execute().get();
+		client.prepareIndex("logs", "log", l.getId()).setSource(serialize(l)).execute().get();
+		client.admin().indices().prepareRefresh("logs").execute().get();
 	}
 
 	@Path("/{id}")
 	@GET
 	public Log get(@PathParam("id") String id) throws Exception {
-		return deserialize(client().prepareGet("logs", "log", id).execute().get().getSourceAsString(), Log.class);
+		return deserialize(client.prepareGet("logs", "log", id).execute().get().getSourceAsString(), Log.class);
 	}
 
 	@Path("/{id}")
 	@DELETE
 	public void delete(@PathParam("id") String id) throws Exception {
-		client().prepareDelete("logs", "log", id).execute().get();
-		client().admin().indices().prepareRefresh("logs").execute().get();
+		client.prepareDelete("logs", "log", id).execute().get();
+		client.admin().indices().prepareRefresh("logs").execute().get();
 	}
 }

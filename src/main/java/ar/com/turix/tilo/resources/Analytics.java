@@ -26,7 +26,7 @@ public class Analytics extends AbstractResource {
 	@GET
 	public Aggs overview(@PathParam("from") long from, @PathParam("to") long to) throws Exception {
 
-		SearchResponse response = client().prepareSearch("logs")//
+		SearchResponse response = client.prepareSearch("logs")//
 				// Query
 				.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to))
 				// Aggregations

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html lang="en" ng-app="tilo">
 <head>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="./webjars/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="./webjars/font-awesome/4.3.0-4/css/font-awesome.min.css">
     <link rel="stylesheet" href="./webjars/angular-ui-select/0.12.1/dist/select.css">
+    <link rel="stylesheet" href="./webjars/bootstrap-daterangepicker/2.0.9/daterangepicker.css">
     <link rel="stylesheet" href="./css/theme.css">
 </head>
 <body>
@@ -22,6 +24,10 @@
                   <li><a href="#/dashboard">Dashboard</a></li>
                   <li><a href="#/analytics">Analytics</a></li>
                   <li><a href="#/projects">Projects</a></li>
+                  <shiro:hasRole name="administrator">
+                  <li><a href="#/users">Users</a></li>
+                  </shiro:hasRole>
+                  <li><a href="logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -32,15 +38,21 @@
         </div>
     </div>
 
+
+    <script src="./webjars/jquery/1.11.3/dist/jquery.min.js"></script>
     <script src="./webjars/angular/1.4.5/angular.min.js"></script>
     <script src="./webjars/angular-sanitize/1.4.5/angular-sanitize.min.js"></script>
     <script src="./webjars/angular-resource/1.4.5/angular-resource.min.js"></script>
     <script src="./webjars/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     
+    <!-- Time management -->
+    <script src="./webjars/momentjs/2.10.6/min/moment.min.js"></script>
+    <script src="./webjars/twix/0.7.2/dist/twix.min.js"></script>    
+
     <!-- form -->
     <script src="./webjars/angular-ui-select/0.12.1/dist/select.min.js"></script>
     <script src="./webjars/angular-input-interval/0.0.2/src/angular-input-interval.js"></script>
-    
+    <script src="./webjars/bootstrap-daterangepicker/2.0.9/daterangepicker.js"></script>    
     
     <!-- Preferences -->
     <script src="./webjars/angular-local-storage/0.2.2/dist/angular-local-storage.min.js"></script>
@@ -48,15 +60,12 @@
     <!-- Analytics -->
     <script src="./webjars/angular-google-chart/0.0.11/ng-google-chart.js"></script>
 
-    <!-- Time management -->
-    <script src="./webjars/momentjs/2.10.6/min/moment.min.js"></script>
-    <script src="./webjars/twix/0.7.2/dist/twix.min.js"></script>    
-
     <script src="./js/app.js"></script>
     <script src="./js/filters.js"></script>
     <script src="./js/modules/dashboard.js"></script>
     <script src="./js/modules/timecard.js"></script>
     <script src="./js/modules/analytics.js"></script>
     <script src="./js/modules/projects.js"></script>
+    <script src="./js/modules/users.js"></script>
 </body>
 </html>
