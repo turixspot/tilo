@@ -1,3 +1,2 @@
 cluster.name: elasticsearch
-client.transport.sniff: true
 client.transport.init: ["localhost:9300"]
