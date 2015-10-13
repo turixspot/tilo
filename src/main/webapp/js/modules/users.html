@@ -9,27 +9,30 @@
     <shiro:hasRole name="administrator">
     <div class="row">
         <div class="col-md-6">
-            <form ng-submit="save()">
+            <form name="user" ng-submit="save()">
               <div class="form-group">
                 <input type="text" class="form-control" id="user" placeholder="Full user name" ng-model="_user.name" required>
-                <p class="help-block">Example block-level help text here.</p>
+                <p class="help-block">Full user name will be shown across the entire application.</p>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-value="_user.isAdmin"> is administrator?
+                  <input name="isadmin" type="checkbox" ng-model="opts.isAdmin"> is administrator?
                 </label>
               </div>
               <div class="form-group">
                 <input type="email" class="form-control" id="user" placeholder="Email" ng-model="_user.id" required>
-                <p class="help-block">Example block-level help text here.</p>
+                <p class="help-block">User unique identifier.</p>
               </div>
-              <div class="form-group">
-                <input type="password" class="form-control" id="pass" placeholder="User password" ng-model="_user.password" required>
-                <p class="help-block">Example block-level help text here.</p>
+              <div class="checkbox" ng-if="opts.isEdit">
+                <label>
+                  <input name="passupdate" type="checkbox" ng-model="opts.passUpdate"> change or set password?
+                </label>
               </div>
-              <div class="form-group">
-                <input type="password" class="form-control" id="pass-rewrite" placeholder="Repeat user password" ng-model="_user.passwordRewrite" required>
-                <p class="help-block">Example block-level help text here.</p>
+              <div class="form-group" ng-show="opts.passUpdate">
+                <input type="password" class="form-control" id="pass" placeholder="User password" ng-model="_user.password" ng-required="opts.passUpdate">
+              </div>
+              <div class="form-group" ng-show="opts.passUpdate">
+                <input type="password" class="form-control" id="pass-rewrite" placeholder="Repeat user password" ng-model="_user.passwordRewrite" ng-required="opts.passUpdate">
               </div>
               <button type="submit" class="btn btn-primary">SAVE USER</button>
             </form>

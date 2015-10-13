@@ -65,7 +65,7 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     	 * Logs
     	 */
     	$scope.$on("update-logs", function() { 
-    		Log.query({date: $scope.selected.format('x')}).$promise.then(function(r) {
+    		Log.query({date: $scope.selected.format('x'), user: $scope.user}).$promise.then(function(r) {
     			 $scope.logs = r;
     		});
     	});

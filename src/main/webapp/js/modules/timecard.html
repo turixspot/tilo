@@ -8,7 +8,7 @@
     </li>
     <li class="last"><a href="#" ng-click="nextWeek()" class="fa fa-chevron-right"></a></li>
     <div id="timecard" class="tab-content">
-        <div class="tab-pane active" ng-init="user = '<shiro:principal property='name'/>'">
+        <div class="tab-pane active" ng-init="user = '<shiro:principal property='id'/>'">
             <input type="hidden" id="user" ng-model="user">
             <ui-select ng-model="project.selected" theme="bootstrap" on-select="updateTasks($item, $model)">
                 <ui-select-match placeholder="Select a Project">{{$select.selected.name}}</ui-select-match>
