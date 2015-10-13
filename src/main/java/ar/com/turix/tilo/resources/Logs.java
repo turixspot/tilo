@@ -27,7 +27,7 @@ public class Logs extends AbstractResource {
 
 	@Path("/")
 	@GET
-	public List<Log> query(@QueryParam("date") long date) throws Exception {
+	public List<Log> query(@QueryParam("date") long date, @QueryParam("user") String user) throws Exception {
 		DateTime tmp = new DateTime(date).withTimeAtStartOfDay();
 		long from = tmp.getMillis(); // 00h 00m 00s
 		long to = tmp.plusDays(1).withTimeAtStartOfDay().minusSeconds(1).getMillis(); // 23h 59m 59s
@@ -35,7 +35,10 @@ public class Logs extends AbstractResource {
 		List<Log> all = new ArrayList<Log>();
 		SearchResponse response = client.prepareSearch("logs")
 		// Query
-		.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to)).execute().get();
+				.setQuery(QueryBuilders.boolQuery() //
+						.must(QueryBuilders.rangeQuery("timestamp").from(from).to(to)) //
+						.must(QueryBuilders.termQuery("user", user)) //
+				).execute().get();
 
 		for (SearchHit sh : response.getHits().getHits())
 			all.add(deserialize(sh.getSourceAsString(), Log.class));
