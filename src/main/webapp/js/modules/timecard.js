@@ -69,7 +69,6 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     			 $scope.logs = r;
     		});
     	});
-    	$scope.$emit("update-logs");
     	
     	$scope.remove = function(remove){
     		Log.remove({ id: remove }).$promise.then(function(r){
@@ -107,6 +106,10 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     			$scope.$emit("reset-form");
     		});
     	}
+    	
+    	$scope.$watch('user', function(){
+    		$scope.$emit("update-logs");
+    	});
     }
   };
 });
