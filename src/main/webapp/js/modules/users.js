@@ -39,7 +39,7 @@ angular.module('tilo.users', [])
 	$scope.edit = function(edit){
 		User.get({ id: edit }).$promise.then(function(p){
 			$scope._user = p;
-			$scope.opts.isAdmin = p.roles.indexOf("administrator") != -1;
+			$scope.opts.isAdmin = p.roles != null && p.roles.indexOf("administrator") != -1;
 			$scope.opts.passUpdate = false;
 			$scope.opts.isEdit = true;
 		});
