@@ -13,11 +13,23 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
+	<distributionManagement>
+		<repository>
+			<id>repository.turix.com.ar</id>
+			<url>s3://repository.turix.com.ar/release</url>
+		</repository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>repository.turix.com.ar</id>
+			<url>s3://repository.turix.com.ar/release</url>
+		</repository>
+	</repositories>
 	<scm>
-        <url>https://github.com/turixspot/tilo</url>
-        <connection>scm:git:git://github.com/turixspot/tilo.git</connection>
-        <developerConnection>scm:git:git@github.com:turixspot/tilo.git</developerConnection>
-    </scm>
+		<url>https://github.com/turixspot/tilo</url>
+		<connection>scm:git:git@github.com:turixspot/tilo.git</connection>
+		<developerConnection>scm:git:git@github.com:turixspot/tilo.git</developerConnection>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<!-- Define the version of JBoss' Java EE 7 APIs we want to import. Any dependencies from org.jboss.spec will have their 
@@ -162,6 +174,13 @@
 	<build>
 		<!-- Set the name of the war, used as the context root when the app is deployed -->
 		<finalName>${project.artifactId}</finalName>
+		<extensions>
+			<extension>
+				<groupId>org.kuali.maven.wagons</groupId>
+				<artifactId>maven-s3-wagon</artifactId>
+				<version>1.2.1</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
