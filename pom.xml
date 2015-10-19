@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ar.com.turix</groupId>
 	<artifactId>tilo</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Tilo</name>
 	<description>Time logging platform</description>
@@ -28,7 +28,7 @@
 		<url>https://github.com/turixspot/tilo</url>
 		<connection>scm:git:git@github.com:turixspot/tilo.git</connection>
 		<developerConnection>scm:git:git@github.com:turixspot/tilo.git</developerConnection>
-		<tag>1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<dependencyManagement>
 		<dependencies>
