@@ -190,24 +190,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>de.jutzig</groupId>
-				<artifactId>github-release-plugin</artifactId>
-				<version>1.1.1</version>
-				<configuration>
-					<description>${project.name} release</description>
-					<releaseName>${project.version}</releaseName>
-					<tag>${project.version}</tag>
-					<fileSets>
-						<fileSet>
-							<directory>${project.build.directory}</directory>
-							<includes>
-								<include>${project.artifactId}.war</include>
-							</includes>
-						</fileSet>
-					</fileSets>
-				</configuration>
-			</plugin>
 			<!-- Only html edition -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
