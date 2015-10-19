@@ -29,6 +29,7 @@
 		<url>https://github.com/turixspot/tilo</url>
 		<connection>scm:git:git@github.com:turixspot/tilo.git</connection>
 		<developerConnection>scm:git:git@github.com:turixspot/tilo.git</developerConnection>
+		<tag>HEAD</tag>
 	</scm>
 	<dependencyManagement>
 		<dependencies>
@@ -182,6 +183,11 @@
 			</extension>
 		</extensions>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
