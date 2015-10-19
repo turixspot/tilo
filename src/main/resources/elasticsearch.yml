@@ -1,3 +1,2 @@
 cluster.name: elasticsearch
-# client.transport.init: ["172.31.18.145:9300"]
 client.transport.init: ["localhost:9300"]
