@@ -13,6 +13,11 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
+	<scm>
+        <url>https://github.com/turixspot/tilo</url>
+        <connection>scm:git:git://github.com/turixspot/tilo.git</connection>
+        <developerConnection>scm:git:git@github.com:turixspot/tilo.git</developerConnection>
+    </scm>
 	<dependencyManagement>
 		<dependencies>
 			<!-- Define the version of JBoss' Java EE 7 APIs we want to import. Any dependencies from org.jboss.spec will have their 
