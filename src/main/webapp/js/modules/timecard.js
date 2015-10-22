@@ -89,7 +89,7 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
 
     		var log = new Log();
     		var timestamp = moment();
-    		timestamp.day($scope.selected.day());
+    		timestamp.date($scope.selected.date());
     		timestamp.month($scope.selected.month());
     		timestamp.year($scope.selected.year());
     		log.timestamp = timestamp.format('x');

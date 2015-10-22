@@ -25,7 +25,7 @@
 			<display-name>Tilo</display-name>
 			<url-pattern>*.html</url-pattern>
 			<el-ignored>false</el-ignored>
-			<scripting-invalid>true</scripting-invalid>
+			<scripting-invalid>false</scripting-invalid>
 			<is-xml>false</is-xml>
 		</jsp-property-group>
 	</jsp-config>
