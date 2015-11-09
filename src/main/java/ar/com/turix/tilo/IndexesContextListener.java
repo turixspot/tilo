@@ -34,6 +34,7 @@ public class IndexesContextListener implements ServletContextListener {
 						.startObject("properties") //
 						.startObject("user").field("type", "string").field("index", "not_analyzed").endObject()//
 						.startObject("project").field("type", "string").field("index", "not_analyzed").endObject()//
+						.startObject("task").field("type", "string").field("index", "not_analyzed").endObject()//
 						.endObject()//
 						.endObject()//
 						.endObject();

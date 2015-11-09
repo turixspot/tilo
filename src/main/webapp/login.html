@@ -31,9 +31,12 @@
                     <div class="form-group">
                         <label class="cr-styled"> <input type="checkbox" name="rememberMe" value="true"> <i class="fa"></i></label> Remember me?
                     </div>
+                    <c:if test="${shiroLoginFailure != null}">
+                        <p class="text-danger"> Username or password incorrect</p>
+                    </c:if>
                     <button class="btn btn-success btn-block">Login</button>
                     <!--  <a class="btn btn-default btn-block" href="#">Register</a> -->
-                    <span class="help-block">Get <a href="http://www.turix.com.ar/tilo/" target="blank">Tilo</a></span>
+                    <span class="help-block">Get <a href="http://tilo.turix.com.ar/" target="blank">Tilo</a></span>
                 </form>
             </div>
         </div>
