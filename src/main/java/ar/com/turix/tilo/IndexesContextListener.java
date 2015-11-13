@@ -24,6 +24,7 @@ public class IndexesContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
+			elastic.upgrade();
 			IndicesAdminClient client = elastic.admin().indices();
 			if (!client.prepareExists("logs").get().isExists()) {
 				CreateIndexRequestBuilder logs = client.prepareCreate("logs");
@@ -44,7 +45,7 @@ public class IndexesContextListener implements ServletContextListener {
 				logs.execute().actionGet();
 			}
 		} catch (ElasticsearchException | IOException e) {
-			e.printStackTrace();
+			sce.getServletContext().log("An error has ocurred trying to initialize or upgrade indexes", e);
 		}
 	}
 
