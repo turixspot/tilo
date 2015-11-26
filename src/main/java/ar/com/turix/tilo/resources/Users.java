@@ -15,17 +15,22 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
 import ar.com.turix.tilo.model.User;
+import ar.com.turix.tilo.utils.Elastic.Index;
 
 @Path("/users")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 public class Users extends AbstractResource {
 
+	public Users() {
+		super(Index.users.name(), Index.users.type());
+	}
+
 	@Path("/")
 	@GET
 	public List<User> all() throws Exception {
 		List<User> all = new ArrayList<User>();
-		SearchResponse response = client.prepareSearch("users").execute().get();
+		SearchResponse response = prepareSearch().execute().get();
 
 		for (SearchHit sh : response.getHits().getHits())
 			all.add(deserialize(sh.getSourceAsString(), User.class));
@@ -36,20 +41,20 @@ public class Users extends AbstractResource {
 	@Path("/")
 	@POST
 	public void save(User p) throws Exception {
-		client.prepareIndex("users", "user", p.getId()).setSource(serialize(p)).execute().get();
-		client.admin().indices().prepareRefresh("users").execute().get();
+		prepareIndex(p.getId()).setSource(serialize(p)).get();
+		refresh();
 	}
 
 	@Path("/{id}")
 	@GET
 	public User get(@PathParam("id") String id) throws Exception {
-		return deserialize(client.prepareGet("users", "user", id).execute().get().getSourceAsString(), User.class);
+		return deserialize(prepareGet(id).get().getSourceAsString(), User.class);
 	}
 
 	@Path("/{id}")
 	@DELETE
 	public void delete(@PathParam("id") String id) throws Exception {
-		client.prepareDelete("users", "user", id).execute().get();
-		client.admin().indices().prepareRefresh("users").execute().get();
+		prepareDelete(id).get();
+		refresh();
 	}
 }

@@ -27,6 +27,8 @@ import org.elasticsearch.search.aggregations.InternalAggregation;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 
+import ar.com.turix.tilo.utils.Elastic.Index;
+
 import com.opencsv.CSVWriter;
 
 @Path("/analytics")
@@ -34,11 +36,15 @@ import com.opencsv.CSVWriter;
 @Produces({ "application/json" })
 public class Analytics extends AbstractResource {
 
+	public Analytics() {
+		super(Index.logs.name(), Index.logs.type());
+	}
+
 	@Path("/overview/{from}/{to}")
 	@GET
 	public Response overview(@PathParam("from") long from, @PathParam("to") long to) throws Exception {
 
-		final SearchResponse response = client.prepareSearch("logs")//
+		final SearchResponse response = prepareSearch()//
 				// Query
 				.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to))
 				// Aggregations
@@ -49,7 +55,7 @@ public class Analytics extends AbstractResource {
 								terms("byuser").field("user").subAggregation( //
 										sum("time_ms").field("time")//
 										))))//
-				.execute().get();
+				.get();
 
 		StreamingOutput stream = new StreamingOutput() {
 
@@ -73,7 +79,7 @@ public class Analytics extends AbstractResource {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@GET
 	public Response export(@PathParam("from") long from, @PathParam("to") long to) throws Exception {
-		final SearchResponse response = client.prepareSearch("logs")//
+		final SearchResponse response = prepareSearch()//
 				// Query
 				.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to))
 				// Aggregations
@@ -96,7 +102,7 @@ public class Analytics extends AbstractResource {
 					for (Terms.Bucket p : project.getBuckets())
 						for (Terms.Bucket t : p.getAggregations().<Terms> get("bytask").getBuckets())
 							for (Terms.Bucket u : t.getAggregations().<Terms> get("byuser").getBuckets())
-								writer.writeNext(new String[] { p.getKey(), t.getKey(), u.getKey(),
+								writer.writeNext(new String[] { p.getKeyAsString(), t.getKeyAsString(), u.getKeyAsString(),
 										(u.getAggregations().<Sum> get("time_ms").getValue() / (1000 * 60 * 60)) + "" });
 
 					writer.flush();

@@ -14,16 +14,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.joda.time.DateTime;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.joda.time.DateTime;
 
 import ar.com.turix.tilo.model.Log;
+import ar.com.turix.tilo.utils.Elastic.Index;
 
 @Path("/logs")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 public class Logs extends AbstractResource {
+
+	public Logs() {
+		super(Index.logs.name(), Index.logs.type());
+	}
 
 	@Path("/")
 	@GET
@@ -33,12 +38,12 @@ public class Logs extends AbstractResource {
 		long to = tmp.plusDays(1).withTimeAtStartOfDay().minusSeconds(1).getMillis(); // 23h 59m 59s
 
 		List<Log> all = new ArrayList<Log>();
-		SearchResponse response = client.prepareSearch("logs")
+		SearchResponse response = prepareSearch()
 		// Query
 				.setQuery(QueryBuilders.boolQuery() //
 						.must(QueryBuilders.rangeQuery("timestamp").from(from).to(to)) //
 						.must(QueryBuilders.termQuery("user", user)) //
-				).execute().get();
+				).get();
 
 		for (SearchHit sh : response.getHits().getHits())
 			all.add(deserialize(sh.getSourceAsString(), Log.class));
@@ -52,20 +57,20 @@ public class Logs extends AbstractResource {
 		if (l.getId() == null) // create
 			l.setId(UUID.randomUUID().toString());
 
-		client.prepareIndex("logs", "log", l.getId()).setSource(serialize(l)).execute().get();
-		client.admin().indices().prepareRefresh("logs").execute().get();
+		prepareIndex(l.getId()).setSource(serialize(l)).get();
+		refresh();
 	}
 
 	@Path("/{id}")
 	@GET
 	public Log get(@PathParam("id") String id) throws Exception {
-		return deserialize(client.prepareGet("logs", "log", id).execute().get().getSourceAsString(), Log.class);
+		return deserialize(prepareGet(id).get().getSourceAsString(), Log.class);
 	}
 
 	@Path("/{id}")
 	@DELETE
 	public void delete(@PathParam("id") String id) throws Exception {
-		client.prepareDelete("logs", "log", id).execute().get();
-		client.admin().indices().prepareRefresh("logs").execute().get();
+		prepareDelete(id).execute().get();
+		refresh();
 	}
 }

@@ -1,0 +1,7 @@
+{
+    "upgrade": {
+        "properties":{
+            "id":     {"type":"string","index":"not_analyzed"}
+        }
+    }
+}
