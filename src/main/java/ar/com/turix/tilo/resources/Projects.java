@@ -1,8 +1,10 @@
 package ar.com.turix.tilo.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import ar.com.turix.tilo.model.Project;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.SortOrder;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -11,11 +13,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.SearchHit;
-
-import ar.com.turix.tilo.model.Project;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Path("/projects")
 @Consumes({ "application/json" })
@@ -26,10 +26,23 @@ public class Projects extends AbstractResource {
 	@GET
 	public List<Project> all() throws Exception {
 		List<Project> all = new ArrayList<Project>();
-		SearchResponse response = client.prepareSearch("projects").execute().get();
 
-		for (SearchHit sh : response.getHits().getHits())
-			all.add(deserialize(sh.getSourceAsString(), Project.class));
+		SearchRequestBuilder rb = client.prepareSearch("projects").addSort("name", SortOrder.ASC);
+
+		int from = 0;
+		long total = 0;
+		do {
+			rb.setFrom(from);
+			SearchResponse response = rb.execute().get();
+
+			total = response.getHits().getTotalHits();
+
+			for (SearchHit sh : response.getHits().getHits())
+				all.add(deserialize(sh.getSourceAsString(), Project.class));
+
+			from += response.getHits().getHits().length;
+
+		} while (from < total);
 
 		return all;
 	}
