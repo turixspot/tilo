@@ -10,8 +10,9 @@ var app = angular.module('tilo', [
   'tilo.projects',
   'tilo.users'
 ])
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 	$urlRouterProvider.otherwise('dashboard');
+	$httpProvider.interceptors.push('security-interceptor');
 })
 .config(function (localStorageServiceProvider) {
   localStorageServiceProvider.setPrefix('tilo');
@@ -20,6 +21,27 @@ var app = angular.module('tilo', [
 	if(!localStorageService.get('shortcuts'))
 		localStorageService.set('shortcuts',{})
 })
+
+.service('security-interceptor', function($rootScope, $q) {
+	var service = this;
+
+	service.request = function(config) {
+		return config;
+	};
+
+	service.responseError = function(response) {
+		if (response.status === 403) {
+			$rootScope.$broadcast('unauthorized');
+		}
+		return $q.reject(response);
+	};
+})
+.controller('MainCtrl', function($rootScope, $window) {
+	$rootScope.$on('unauthorized', function() {
+		$window.location = './login.html';
+	});
+})
+
 .factory('Project', function($resource) {
 	return $resource('./api/projects/:id');
 })
