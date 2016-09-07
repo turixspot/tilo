@@ -20,7 +20,7 @@
                 </label>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" id="user" placeholder="Email" ng-model="_user.id" required>
+                <input type="email" class="form-control" id="user" placeholder="Email" ng-model="_user.id" required ng-disabled="opts.isEdit">
                 <p class="help-block">User unique identifier.</p>
               </div>
               <div class="checkbox" ng-if="opts.isEdit">
