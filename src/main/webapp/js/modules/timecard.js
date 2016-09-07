@@ -94,8 +94,8 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     		timestamp.year($scope.selected.year());
     		log.timestamp = timestamp.format('x');
     		log.user = $scope.user;
-    		log.project = $scope.project.selected.name;
-    		log.task = $scope.task.selected.name;
+    		log.project = $scope.project.selected!= null ? $scope.project.selected.name : null;
+    		log.task = $scope.task.selected != null ? $scope.task.selected.name : null;
     		log.note = $scope.note;
     		log.time = $scope.time;
     		

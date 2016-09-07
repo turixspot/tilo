@@ -1,31 +1,33 @@
 package ar.com.turix.tilo;
 
-import java.io.IOException;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-
+import ar.com.turix.tilo.utils.Elastic;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
-import ar.com.turix.tilo.utils.Elastic;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
+import java.io.IOException;
 
-@WebListener
-public class IndexesContextListener implements ServletContextListener {
+/**
+ * @author rvega
+ */
+@Startup
+@Singleton
+public class Bootstrap {
 
 	@Inject
 	private Elastic elastic;
 
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
+	@PostConstruct
+	public void initialize() {
 		try {
 			IndicesAdminClient client = elastic.admin().indices();
-			if (!client.prepareExists("logs").get().isExists()) {
+			if (!client.prepareExists("log_idx").get().isExists()) {
 				CreateIndexRequestBuilder logs = client.prepareCreate("logs");
 
 				final XContentBuilder mappingBuilder = XContentFactory.jsonBuilder()//
@@ -46,9 +48,5 @@ public class IndexesContextListener implements ServletContextListener {
 		} catch (ElasticsearchException | IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
 	}
 }

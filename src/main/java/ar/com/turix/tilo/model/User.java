@@ -1,8 +1,11 @@
 package ar.com.turix.tilo.model;
 
+import ar.com.turix.tilo.utils.Assert;
+import ar.com.turix.tilo.utils.EntityValidationException;
+
 import java.util.Set;
 
-public class User {
+public class User extends AbstractEntity {
 	private String id;
 	private String name;
 	private Set<String> roles;
@@ -49,5 +52,12 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public void validate() throws EntityValidationException {
+		new Assert().assertNotBlank(name, "name", "validation.User.name.notEmpty")//
+				.assertNotEmpty(password, "password", "validation.User.password.notEmpty")//
+				.verify();
 	}
 }

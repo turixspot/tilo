@@ -1,8 +1,11 @@
 package ar.com.turix.tilo.model;
 
+import ar.com.turix.tilo.utils.Assert;
+import ar.com.turix.tilo.utils.EntityValidationException;
+
 import java.util.List;
 
-public class Project {
+public class Project extends AbstractEntity {
 	private String id;
 	private String name;
 	private List<Attribute> attributes;
@@ -38,6 +41,13 @@ public class Project {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	@Override
+	public void validate() throws EntityValidationException {
+		new Assert().assertNotBlank(name, "name", "validation.Project.name.notEmpty")//
+				.assertNotEmpty(tasks, "tasks", "validation.Project.tasks.notEmpty")//
+				.verify();
 	}
 
 	@Override

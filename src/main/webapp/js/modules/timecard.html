@@ -13,16 +13,18 @@
             <ui-select ng-model="project.selected" theme="bootstrap" on-select="updateTasks($item, $model)">
                 <ui-select-match placeholder="Select a Project">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="p in projects | filter: $select.search">
-                  <div ng-bind-html="p.name | highlight: $select.search"></div>
+                    <div ng-bind-html="p.name | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
+            <input type="hidden" id="project" validate-msg>
             <br>
             <ui-select ng-model="task.selected" theme="bootstrap">
                 <ui-select-match placeholder="Select a task">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="t in project.selected.tasks | filter: $select.search">
-                  <div ng-bind-html="t.name | highlight: $select.search"></div>
+                    <div ng-bind-html="t.name | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
+            <input type="hidden" id="task" validate-msg>
             <br>
             <div class="row">
                 <div class="col-md-4">
@@ -30,6 +32,9 @@
                 </div>
                 <div class="col-md-8">
                     <textarea class="form-control input-note" rows="3" style="height: 70px" placeholder="Note" ng-model="note"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <input type="hidden" id="time" validate-msg>
                 </div>
             </div>
             <br>
@@ -47,17 +52,17 @@
 <div class="clearfix"></div>
 <br><br>
 <ul class="media-list logs">
-  <li class="media" ng-repeat="log in logs">
-    <div class="pull-right" style="padding-right: 20px;"><i class="fa fa-trash-o" ng-click="remove(log.id)"></i></div>
-    <div class="media-left">
-        <span class="time">{{log.time | formatMillis}}</span>
-    </div>
-    <div class="media-body">
-      <h4 class="media-heading">{{log.project}}</h4>
-      <p>{{log.task}}</p>
-    </div>
-    <div class="media-right">
-      <p class="media-footer">{{log.note}}</p>
-    </div>
-  </li>
+    <li class="media" ng-repeat="log in logs">
+        <div class="pull-right" style="padding-right: 20px;"><i class="fa fa-trash-o" ng-click="remove(log.id)"></i></div>
+        <div class="media-left">
+            <span class="time">{{log.time | formatMillis}}</span>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{log.project}}</h4>
+            <p>{{log.task}}</p>
+        </div>
+        <div class="media-right">
+            <p class="media-footer">{{log.note}}</p>
+        </div>
+    </li>
 </ul>

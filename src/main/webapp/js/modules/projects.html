@@ -3,37 +3,38 @@
     <div class="row">
         <div class="col-md-6">
             <form ng-submit="save()">
-              <div class="form-group">
-                <input type="hidden" id="id" ng-model="_project.id" >
-                <input type="text" class="form-control" id="project" placeholder="Project name" ng-model="_project.name" required>
-                <p class="help-block">Example block-level help text here.</p>
-              </div>
-              <h4>Attributes</h4>
-              <div class="row" ng-repeat="attribute in _project.attributes">
-                <div class="col-md-4">
-                    <input type="text" class="form-control " placeholder="Attribute name" ng-model="attribute.name">
+                <div class="form-group">
+                    <input type="hidden" id="id" ng-model="_project.id">
+                    <input type="text" class="form-control" id="name" placeholder="Project name" ng-model="_project.name" validate-msg>
+                    <p class="help-block">Example block-level help text here.</p>
                 </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Attribute value" ng-model="attribute.value">
+                <h4>Attributes</h4>
+                <div class="row" ng-repeat="attribute in _project.attributes">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control " placeholder="Attribute name" ng-model="attribute.name">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Attribute value" ng-model="attribute.value">
+                    </div>
+                    <div class="col-md-2">
+                        <i class="fa fa-form fa-times" ng-click="removeAttribute($index)"></i>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <i class="fa fa-form fa-times" ng-click="removeAttribute($index)"></i>
+                <br>
+                <button type="button" class="btn btn-default" ng-click="addAttribute()">ADD</button>
+                <br><br>
+                <h4>Tasks</h4>
+                <div class="row" ng-repeat="task in _project.tasks">
+                    <div class="col-md-10"><input type="text" class="form-control " placeholder="Task name" ng-model="task.name"></div>
+                    <div class="col-md-2">
+                        <i class="fa fa-form fa-times" ng-click="removeTask($index)"></i>
+                    </div>
                 </div>
-              </div>
-              <br>
-              <button type="button" class="btn btn-default" ng-click="addAttribute()">ADD</button>
-              <br><br>
-              <h4>Tasks</h4>
-              <div class="row" ng-repeat="task in _project.tasks">
-                <div class="col-md-10"><input type="text" class="form-control " placeholder="Task name" ng-model="task.name"></div>
-                <div class="col-md-2">
-                    <i class="fa fa-form fa-times" ng-click="removeTask($index)"></i>
-                </div>
-              </div>
-              <br>
-              <button type="button" class="btn btn-default" ng-click="addTask()">ADD</button>
-              <br><br>
-              <button type="submit" class="btn btn-primary">SAVE PROJECT</button>
+                <input type="hidden" id="tasks" validate-msg>
+                <br>
+                <button type="button" class="btn btn-default" ng-click="addTask()">ADD</button>
+                <br><br>
+                <button type="submit" class="btn btn-primary">SAVE PROJECT</button>
             </form>
         </div>
         <div class="col-md-6">

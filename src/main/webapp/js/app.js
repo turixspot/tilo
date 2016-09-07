@@ -5,6 +5,7 @@ var app = angular.module('tilo', [
   'ui.router',
   'LocalStorageModule',
   'tilo.filters',
+  'tilo.directives',
   'tilo.dashboard',
   'tilo.analytics',
   'tilo.projects',
@@ -30,10 +31,15 @@ var app = angular.module('tilo', [
 	};
 
 	service.responseError = function(response) {
-		if (response.status === 403) {
-			$rootScope.$broadcast('unauthorized');
-		}
-		return $q.reject(response);
+	    switch (response.status) {
+	        case 403:
+                $rootScope.$broadcast('unauthorized');
+                break;
+	        case 400:
+	            $rootScope._error = response.data;
+	            break;
+	    }
+	    return $q.reject(response);
 	};
 })
 .controller('MainCtrl', function($rootScope, $window) {

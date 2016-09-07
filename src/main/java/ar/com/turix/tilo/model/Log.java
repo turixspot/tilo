@@ -1,6 +1,9 @@
 package ar.com.turix.tilo.model;
 
-public class Log {
+import ar.com.turix.tilo.utils.Assert;
+import ar.com.turix.tilo.utils.EntityValidationException;
+
+public class Log extends AbstractEntity {
 	private String id;
 	private String user;
 	private long timestamp;
@@ -63,5 +66,13 @@ public class Log {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	@Override
+	public void validate() throws EntityValidationException {
+		new Assert().assertRange(time, 1l, Long.MAX_VALUE, "time", "validation.Log.time.range")//
+				.assertNotBlank(project, "project", "validation.Log.project.notBlank")//
+				.assertNotBlank(task, "task", "validation.Log.task.notBlank")//
+				.verify();
 	}
 }

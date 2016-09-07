@@ -1,5 +1,8 @@
 package ar.com.turix.tilo.security;
 
+import ar.com.turix.tilo.model.User;
+import ar.com.turix.tilo.resources.Users;
+import ar.com.turix.tilo.utils.Injector;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -8,10 +11,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-
-import ar.com.turix.tilo.model.User;
-import ar.com.turix.tilo.resources.Users;
-import ar.com.turix.tilo.utils.Injector;
 
 public class ElasticRealm extends AuthorizingRealm {
 

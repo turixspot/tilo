@@ -3,16 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
-    Properties mavenProperties = new Properties();
-    try(java.io.InputStream inputStream = getServletContext().getResourceAsStream("/META-INF/maven/ar.com.turix/tilo/pom.properties")){
-        mavenProperties.load(inputStream );
-    }
-    String version = (String) mavenProperties.get("version");
+Properties mavenProperties = new Properties();
+try(java.io.InputStream inputStream = getServletContext().getResourceAsStream("/META-INF/maven/ar.com.turix/tilo/pom.properties")){
+mavenProperties.load(inputStream );
+}
+String version = (String) mavenProperties.get("version");
 %>
-<!DOCTYPE html>
 <html lang="en" ng-app="tilo">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Tilo - time logging made easy</title>
     <meta name="description" content="Tilo is an open source time tracking solution for your company, project or personal use. Developed by Turix.">
     <link rel="stylesheet" href="./webjars/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -22,61 +21,62 @@
     <link rel="stylesheet" href="./css/theme.css?v=<%= version %>">
 </head>
 <body ng-controller="MainCtrl">
-    <div class="container-fluid header">
-        <div class="color-line"></div>
-        <div class="logo">
+<div class="container-fluid header">
+    <div class="color-line"></div>
+    <div class="logo">
             <span>
                 Tilo
             </span>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                  <li><a href="#/dashboard">Dashboard</a></li>
-                  <li><a href="#/analytics">Analytics</a></li>
-                  <shiro:hasRole name="administrator">
-                  <li><a href="#/projects">Projects</a></li>
-                  <li><a href="#/users">Users</a></li>
-                  </shiro:hasRole>
-                  <li><a href="logout">Logout</a></li>
-            </ul>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/dashboard">Dashboard</a></li>
+            <li><a href="#/analytics">Analytics</a></li>
+            <shiro:hasRole name="administrator">
+                <li><a href="#/projects">Projects</a></li>
+                <li><a href="#/users">Users</a></li>
+            </shiro:hasRole>
+            <li><a href="logout">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid body">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8" ui-view>
         </div>
     </div>
-    <div class="container-fluid body">
-        <div class="row">
-            <div class="col-md-offset-2 col-md-8" ui-view>
-            </div>
-        </div>
-    </div>
+</div>
 
 
-    <script src="./webjars/jquery/1.11.3/dist/jquery.min.js"></script>
-    <script src="./webjars/angular/1.5.5/angular.min.js"></script>
-    <script src="./webjars/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
-    <script src="./webjars/angular-resource/1.5.5/angular-resource.min.js"></script>
-    <script src="./webjars/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-    
-    <!-- Time management -->
-    <script src="./webjars/momentjs/2.10.6/min/moment.min.js"></script>
-    <script src="./webjars/twix/0.7.2/dist/twix.min.js"></script>    
+<script src="./webjars/jquery/1.11.3/dist/jquery.min.js"></script>
+<script src="./webjars/angular/1.5.5/angular.min.js"></script>
+<script src="./webjars/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
+<script src="./webjars/angular-resource/1.5.5/angular-resource.min.js"></script>
+<script src="./webjars/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 
-    <!-- form -->
-    <script src="./webjars/angular-ui-select/0.18.0/dist/select.min.js"></script>
-    <script src="./webjars/angular-input-interval/0.0.2/src/angular-input-interval.js"></script>
-    <script src="./webjars/bootstrap-daterangepicker/2.0.9/daterangepicker.js"></script>    
-    
-    <!-- Preferences -->
-    <script src="./webjars/angular-local-storage/0.2.2/dist/angular-local-storage.min.js"></script>
-    
-    <!-- Analytics -->
-    <script src="./webjars/angular-google-chart/0.0.11/ng-google-chart.js"></script>
-    <script src="./webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- Time management -->
+<script src="./webjars/momentjs/2.10.6/min/moment.min.js"></script>
+<script src="./webjars/twix/0.7.2/dist/twix.min.js"></script>
 
-    <script src="./js/app.js?v=<%= version %>"></script>
-    <script src="./js/filters.js?v=<%= version %>"></script>
-    <script src="./js/modules/dashboard.js?v=<%= version %>"></script>
-    <script src="./js/modules/timecard.js?v=<%= version %>"></script>
-    <script src="./js/modules/analytics.js?v=<%= version %>"></script>
-    <script src="./js/modules/projects.js?v=<%= version %>"></script>
-    <script src="./js/modules/users.js?v=<%= version %>"></script>
+<!-- form -->
+<script src="./webjars/angular-ui-select/0.18.0/dist/select.min.js"></script>
+<script src="./webjars/angular-input-interval/0.0.2/src/angular-input-interval.js"></script>
+<script src="./webjars/bootstrap-daterangepicker/2.0.9/daterangepicker.js"></script>
+
+<!-- Preferences -->
+<script src="./webjars/angular-local-storage/0.2.2/dist/angular-local-storage.min.js"></script>
+
+<!-- Analytics -->
+<script src="./webjars/angular-google-chart/0.0.11/ng-google-chart.js"></script>
+<script src="./webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="./js/app.js?v=<%= version %>"></script>
+<script src="./js/filters.js?v=<%= version %>"></script>
+<script src="./js/directives.js?v=<%= version %>"></script>
+<script src="./js/modules/dashboard.js?v=<%= version %>"></script>
+<script src="./js/modules/timecard.js?v=<%= version %>"></script>
+<script src="./js/modules/analytics.js?v=<%= version %>"></script>
+<script src="./js/modules/projects.js?v=<%= version %>"></script>
+<script src="./js/modules/users.js?v=<%= version %>"></script>
 </body>
 </html>
