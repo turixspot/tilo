@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en);
+
 body {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	margin: 0;
@@ -60,17 +62,19 @@ h3 {
 	text-align: left;
 	float: left;
 	width: 180px;
-	padding: 18px 10px 18px 18px;
+	padding: 10px;
 	height: 56px;
 	text-align: center;
 }
 
 .logo span {
+    font-family: 'Open Sans';
 	font-weight: 600;
 	color: #34495e;
 	font-size: 14px;
-	font-weight: 600;
-	font-size: 14px;
+	font-weight: 700;
+	font-size: 28px;
+    color: #62cb31;
 }
 
 .nav>li>a {

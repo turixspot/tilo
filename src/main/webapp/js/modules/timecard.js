@@ -46,6 +46,7 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     	
     	$scope.updateTasks = function(item, model){
     		$scope.tasks = item.tasks;
+    		$scope.task.selected = item.tasks[0];
     	}
     	
     	/**

@@ -27,7 +27,7 @@ public class Bootstrap {
 	public void initialize() {
 		try {
 			IndicesAdminClient client = elastic.admin().indices();
-			if (!client.prepareExists("log_idx").get().isExists()) {
+			if (!client.prepareExists("logs").get().isExists()) {
 				CreateIndexRequestBuilder logs = client.prepareCreate("logs");
 
 				final XContentBuilder mappingBuilder = XContentFactory.jsonBuilder()//

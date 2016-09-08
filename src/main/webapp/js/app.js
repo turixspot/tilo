@@ -39,8 +39,14 @@ var app = angular.module('tilo', [
 	            $rootScope._error = response.data;
 	            break;
 	    }
+
 	    return $q.reject(response);
 	};
+
+    service.response = function(response){
+        delete $rootScope._error;
+        return response;
+    };
 })
 .controller('MainCtrl', function($rootScope, $window) {
 	$rootScope.$on('unauthorized', function() {

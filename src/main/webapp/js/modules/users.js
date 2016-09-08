@@ -11,7 +11,7 @@ angular.module('tilo.users', [])
             });
 })
 
-.controller('UserCtrl', function ($scope, User) {
+.controller('UserCtrl', function ($rootScope, $scope, User) {
 	
 	$scope.$on('reset', function(){
 		$scope._user = new User();
@@ -23,6 +23,11 @@ angular.module('tilo.users', [])
 	})
 	
 	$scope.save = function(){
+	    if($scope.opts.passUpdate && ($scope._user.password != $scope._user.passwordRewrite)) {
+	        $rootScope._error = { details:{password:["Password confirmation doesn't match."]}};
+	        return;
+	    }
+
 		delete $scope._user.passwordRewrite;
 		
 		if($scope.opts.isAdmin) {
@@ -50,6 +55,6 @@ angular.module('tilo.users', [])
 			$scope.$emit('reset');
 		});
 	};
-	
+
 	$scope.$emit('reset');
 });

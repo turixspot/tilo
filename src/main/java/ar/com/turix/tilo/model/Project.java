@@ -45,9 +45,17 @@ public class Project extends AbstractEntity {
 
 	@Override
 	public void validate() throws EntityValidationException {
-		new Assert().assertNotBlank(name, "name", "validation.Project.name.notEmpty")//
-				.assertNotEmpty(tasks, "tasks", "validation.Project.tasks.notEmpty")//
-				.verify();
+		Assert a = new Assert()//
+				.assertNotBlank(name, "name", "validation.Project.name.notEmpty")//
+				.assertNotEmpty(tasks, "tasks", "validation.Project.tasks.notEmpty");
+
+		for (Attribute attribute : attributes)
+			a.assertNotBlank(attribute.getName(), "attributes", "validation.Project.attributes.name.notBlank");
+
+		for (Task task : tasks)
+			a.assertNotBlank(task.getName(), "tasks", "validation.Project.tasks.name.notBlank");
+
+		a.verify();
 	}
 
 	@Override
