@@ -50,7 +50,7 @@ public class Project extends AbstractEntity {
 				.assertNotEmpty(tasks, "tasks", "validation.Project.tasks.notEmpty");
 
 		for (Attribute attribute : attributes)
-			a.assertNotBlank(attribute.getName(), "attributes", "validation.Project.attributes.name.notBlank");
+			a.assertNotBlank(attribute.getName(), "attrs", "validation.Project.attributes.name.notBlank");
 
 		for (Task task : tasks)
 			a.assertNotBlank(task.getName(), "tasks", "validation.Project.tasks.name.notBlank");

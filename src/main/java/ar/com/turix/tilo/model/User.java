@@ -60,4 +60,9 @@ public class User extends AbstractEntity {
 				.assertNotEmpty(password, "password", "validation.User.password.notEmpty")//
 				.verify();
 	}
+
+	@Override
+	public String toString() {
+		return "User{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", roles=" + roles + ", password='" + password + '\'' + '}';
+	}
 }

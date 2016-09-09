@@ -1,11 +1,14 @@
 package ar.com.turix.tilo.resources;
 
+import ar.com.turix.tilo.model.User;
 import ar.com.turix.tilo.utils.Elastic;
 import com.opencsv.CSVWriter;
+import org.apache.shiro.SecurityUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.InternalAggregation;
@@ -41,9 +44,17 @@ public class Analytics {
 	@GET
 	public Response overview(@PathParam("from") long from, @PathParam("to") long to) throws Exception {
 
+		BoolQueryBuilder qb = QueryBuilders.boolQuery();
+		qb.must(QueryBuilders.rangeQuery("timestamp").from(from).to(to));
+
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+
+		if (!user.getRoles().contains("administrator"))
+			qb.must(QueryBuilders.termQuery("user", user.getId()));
+
 		final SearchResponse response = client.prepareSearch("logs")//
 				// Query
-				.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to))
+				.setQuery(qb)
 				// Aggregations
 				.addAggregation(terms("byproject").field("project").subAggregation(sum("time_ms").field("time")))//
 				.addAggregation(terms("byuser").field("user").subAggregation(sum("time_ms").field("time")))//
@@ -75,9 +86,18 @@ public class Analytics {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@GET
 	public Response export(@PathParam("from") long from, @PathParam("to") long to) throws Exception {
+
+		BoolQueryBuilder qb = QueryBuilders.boolQuery();
+		qb.must(QueryBuilders.rangeQuery("timestamp").from(from).to(to));
+
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+
+		if (!user.getRoles().contains("administrator"))
+			qb.must(QueryBuilders.termQuery("user", user.getId()));
+
 		final SearchResponse response = client.prepareSearch("logs")//
 				// Query
-				.setQuery(QueryBuilders.rangeQuery("timestamp").from(from).to(to))
+				.setQuery(qb)
 				// Aggregations
 				.addAggregation(terms("detailed").field("project").subAggregation( //
 						terms("bytask").field("task").subAggregation( //
