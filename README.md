@@ -4,7 +4,7 @@ Time logging made easy. [Tilo](http://tilo.turix.com.ar) is an open source time 
 
 ## Install
 
-* Install and configure [Elastic Search](https://www.elastic.co/downloads/elasticsearch)
+* Install and configure [Elastic Search](https://www.elastic.co/downloads/past-releases/elasticsearch-1-7-5)
 * Install and configure [Wildfly](http://wildfly.org/downloads/)
 * Download latest Tilo release
 * Extract the configuration file.
