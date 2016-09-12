@@ -12,7 +12,7 @@
             <input type="hidden" id="user" ng-model="user">
             <ui-select ng-model="project.selected" theme="bootstrap" on-select="updateTasks($item, $model)">
                 <ui-select-match placeholder="Select a Project">{{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="p in projects | filter: $select.search">
+                <ui-select-choices repeat="p in projects | filter: { name: $select.search }">
                     <div ng-bind-html="p.name | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
@@ -20,7 +20,7 @@
             <br>
             <ui-select ng-model="task.selected" theme="bootstrap">
                 <ui-select-match placeholder="Select a task">{{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="t in project.selected.tasks | filter: $select.search">
+                <ui-select-choices repeat="t in tasks | filter: { name: $select.search }">
                     <div ng-bind-html="t.name | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>

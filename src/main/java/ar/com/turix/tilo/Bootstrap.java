@@ -45,6 +45,23 @@ public class Bootstrap {
 
 				logs.execute().actionGet();
 			}
+
+			if (!client.prepareExists("projects").get().isExists()) {
+				CreateIndexRequestBuilder logs = client.prepareCreate("projects");
+
+				final XContentBuilder mappingBuilder = XContentFactory.jsonBuilder()//
+						.startObject()//
+						.startObject("project") //
+						.startObject("properties") //
+						.startObject("name").field("type", "string").field("index", "not_analyzed").endObject()//
+						.endObject()//
+						.endObject()//
+						.endObject();
+				System.out.println(mappingBuilder.string());
+				logs.addMapping("project", mappingBuilder);
+
+				logs.execute().actionGet();
+			}
 		} catch (ElasticsearchException | IOException e) {
 			e.printStackTrace();
 		}

@@ -39,16 +39,14 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     	/**
     	 * Project/Task selection
     	 */
-    	$scope.tasks = [];
     	$scope.task = {};
     	$scope.projects = Project.query();
     	$scope.project = { }
     	
     	$scope.updateTasks = function(item, model){
     		$scope.tasks = item.tasks;
-    		$scope.task.selected = item.tasks[0];
     	}
-    	
+
     	/**
     	 * Shortcuts
     	 */
@@ -58,8 +56,8 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     	$scope.$emit("update-shortcuts");
     	
     	$scope.shortcut = function(project, task) {
-    		$scope.project.selected = $filter('property')($scope.projects,'name',project);
-    		$scope.task.selected = $filter('property')($scope.project.selected.tasks,'name',task);
+    		$scope.project.selected = $filter('filter')($scope.projects, {'name': project})[0];
+    		$scope.task.selected = $filter('filter')($scope.project.selected.tasks, {'name' : task})[0];
     	}
     	
     	/**
@@ -95,7 +93,7 @@ angular.module('tilo.timecard', ['ui.select', 'angular-input-interval'])
     		timestamp.year($scope.selected.year());
     		log.timestamp = timestamp.format('x');
     		log.user = $scope.user;
-    		log.project = $scope.project.selected!= null ? $scope.project.selected.name : null;
+    		log.project = $scope.project.selected != null ? $scope.project.selected.name : null;
     		log.task = $scope.task.selected != null ? $scope.task.selected.name : null;
     		log.note = $scope.note;
     		log.time = $scope.time;
